@@ -1,0 +1,20 @@
+{
+  "name": "js-query-builder",
+  "version": "1.0.0",
+  "description": "JavaScript query builder.",
+  "main": "build/index.js",
+  "scripts": {
+    "build": "babel src -d build"
+  },
+  "keywords": [
+    "js",
+    "query",
+    "builder",
+    "laravel"
+  ],
+  "author": "Ilya Sakovich",
+  "license": "MIT",
+  "dependencies": {
+    "babel-cli": "^6.26.0"
+  }
+}
