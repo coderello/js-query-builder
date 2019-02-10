@@ -3,8 +3,12 @@
   "version": "0.1.0",
   "description": "An easy way to build a query string compatible with \"spatie/laravel-query-builder\".",
   "main": "dist/index.js",
+  "files": [
+    "/src"
+  ],
   "scripts": {
     "build": "rm -rf dist/* && babel src -d dist",
+    "prepublish": "jest && npm run format && npm run build",
     "test": "jest --watchAll --coverage",
     "format": "prettier --write \"**/*.{css,js,vue}\""
   },
