@@ -4,7 +4,8 @@
   "description": "An easy way to build a query string compatible with \"spatie/laravel-query-builder\".",
   "main": "dist/index.js",
   "files": [
-    "/src"
+    "/src",
+    "/dist"
   ],
   "scripts": {
     "build": "rm -rf dist/* && babel src -d dist",
