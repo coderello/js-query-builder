@@ -1,6 +1,6 @@
 # JavaScript Query Builder
 
-**JavaScript Query Builder** provides an easy way to build a query string compatible with [spatie/laravel-query-builder](https://github.com/laravel-query-builder).
+**JavaScript Query Builder** provides an easy way to build a query string compatible with [spatie/laravel-query-builder](https://github.com/spatie/laravel-query-builder).
 
 ## Install
 
