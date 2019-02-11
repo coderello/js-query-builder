@@ -6,6 +6,7 @@ export default class QueryBuilder {
         this._filters = {};
         this._sorts = [];
         this._includes = [];
+        this._appends = [];
         this._fields = {};
         this._page = null;
         this._params = {};
@@ -103,6 +104,43 @@ export default class QueryBuilder {
                         break;
                     case 'string':
                         this._includes = this._includes.filter(v => v !== arg);
+                        break;
+                    default:
+                        throw new Error();
+                }
+            });
+        }
+
+        return this;
+    }
+
+    append(...args) {
+        args.forEach(arg => {
+            switch (gettype(arg)) {
+                case 'array':
+                    this.append(...arg);
+                    break;
+                case 'string':
+                    this._appends.push(arg);
+                    break;
+                default:
+                    throw new Error();
+            }
+        });
+        return this;
+    }
+
+    forgetAppend(...args) {
+        if (args.length === 0) {
+            this._appends = [];
+        } else {
+            args.forEach(arg => {
+                switch (gettype(arg)) {
+                    case 'array':
+                        this.forgetAppend(...arg);
+                        break;
+                    case 'string':
+                        this._appends = this._appends.filter(v => v !== arg);
                         break;
                     default:
                         throw new Error();
@@ -283,6 +321,9 @@ export default class QueryBuilder {
 
         this._includes.length &&
             params.push([QueryBuilder.getParameterName('include'), this._includes.join(',')]);
+
+        this._appends.length &&
+            params.push([QueryBuilder.getParameterName('append'), this._appends.join(',')]);
 
         Object.entries(this._fields).forEach(entry => {
             params.push([

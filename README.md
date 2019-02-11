@@ -25,6 +25,7 @@ const url = query('/users')
     .filter('age', 20)
     .sort('-created_at', 'name')
     .include('posts', 'comments')
+    .append('fullname', 'ranking')
     .fields({
         posts: ['id', 'name'],
         comments: ['id', 'content'],
@@ -34,10 +35,10 @@ const url = query('/users')
     .build();
 
 console.log(url);
-// /users?custom_param=value&fields%5Bcomments%5D=id%2Ccontent&fields%5Bposts%5D=id%2Cname&filter%5Bage%5D=20&include=posts%2Ccomments&page=1&sort=-created_at%2Cname
+// /users?append=fullname%2Cranking&custom_param=value&fields%5Bcomments%5D=id%2Ccontent&fields%5Bposts%5D=id%2Cname&filter%5Bage%5D=20&include=posts%2Ccomments&page=1&sort=-created_at%2Cname
 
 console.log(decodeURIComponent(url));
-// /users?custom_param=value&fields[comments]=id,content&fields[posts]=id,name&filter[age]=20&include=posts,comments&page=1&sort=-created_at,name
+// /users?append=fullname,ranking&custom_param=value&fields[comments]=id,content&fields[posts]=id,name&filter[age]=20&include=posts,comments&page=1&sort=-created_at,name
 ```
 
 ### Making requests

@@ -213,6 +213,77 @@ describe('QueryBuilder', () => {
         ).toThrowError();
     });
 
+    it('should add appends', () => {
+        expect(
+            qb()
+                .append('a', 'b')
+                .build()
+        ).toStrictEqual('/?append=a%2Cb');
+
+        expect(
+            qb()
+                .append(['c', 'd'])
+                .build()
+        ).toStrictEqual('/?append=c%2Cd');
+    });
+
+    it('should not add appends with invalid arguments', () => {
+        expect(() =>
+            qb()
+                .append('a', {})
+                .build()
+        ).toThrowError();
+
+        expect(() =>
+            qb()
+                .append(['b', null])
+                .build()
+        ).toThrowError();
+    });
+
+    it('should forget appends', () => {
+        expect(
+            qb()
+                .append('a', 'd', 'f', 'b')
+                .forgetAppend(['d', 'f'])
+                .build()
+        ).toStrictEqual('/?append=a%2Cb');
+
+        expect(
+            qb()
+                .append(['a', 'd', 'f', 'b'])
+                .forgetAppend('a', 'f')
+                .build()
+        ).toStrictEqual('/?append=d%2Cb');
+
+        expect(
+            qb()
+                .append(['a', 'd', 'f', 'b'])
+                .forgetAppend()
+                .build()
+        ).toStrictEqual('/?');
+    });
+
+    it('should not forget appends with invalid arguments', () => {
+        expect(() =>
+            qb()
+                .forgetAppend(null)
+                .build()
+        ).toThrowError();
+
+        expect(() =>
+            qb()
+                .forgetAppend({})
+                .build()
+        ).toThrowError();
+
+        expect(() =>
+            qb()
+                .forgetAppend([2, undefined])
+                .build()
+        ).toThrowError();
+    });
+
     it('should apply filters', () => {
         expect(
             qb()
@@ -561,6 +632,7 @@ describe('QueryBuilder', () => {
                     t: ['g', 'a'],
                 })
                 .forgetFields('h')
+                .append('b', 'd')
                 .page(3)
                 .param({
                     a: 'b',
@@ -570,7 +642,7 @@ describe('QueryBuilder', () => {
                 .forgetParam('u', 'n')
                 .build()
         ).toStrictEqual(
-            '/?a=b&fields%5Bt%5D=g%2Ca&filter%5Ba%5D=b&filter%5Bf%5D=c&include=y%2Cs&page=3&sort=c%2Cd%2Ce'
+            '/?a=b&append=b%2Cd&fields%5Bt%5D=g%2Ca&filter%5Ba%5D=b&filter%5Bf%5D=c&include=y%2Cs&page=3&sort=c%2Cd%2Ce'
         );
     });
 
