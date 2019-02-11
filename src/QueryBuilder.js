@@ -1,12 +1,12 @@
 import gettype from './utils/gettype';
 
 export default class QueryBuilder {
-    constructor(baseUri = '') {
-        this._baseUri = baseUri;
+    constructor(baseUrl = '') {
+        this._baseUrl = baseUrl;
         this._filters = {};
         this._sorts = [];
         this._includes = [];
-        this._fields = [];
+        this._fields = {};
         this._page = null;
         this._params = {};
     }
@@ -15,10 +15,19 @@ export default class QueryBuilder {
         this._customParameterNames = customParameterNames;
     }
 
+    static forgetCustomParameterNames() {
+        delete this._customParameterNames;
+    }
+
     static getParameterName(parameter) {
         return this._customParameterNames && this._customParameterNames.hasOwnProperty(parameter)
             ? this._customParameterNames[parameter]
             : parameter;
+    }
+
+    baseUrl(baseUrl) {
+        this._baseUrl = baseUrl;
+        return this;
     }
 
     param(...args) {
@@ -190,7 +199,7 @@ export default class QueryBuilder {
     fields(...args) {
         switch (args.length) {
             case 1:
-                if (gettype(args[0]) === 'object') {
+                if (gettype(args[0]) !== 'object') {
                     throw new Error();
                 }
                 Object.entries(args[0]).forEach(entry => {
@@ -232,7 +241,7 @@ export default class QueryBuilder {
 
     page(page) {
         if (gettype(page) !== 'number' && gettype(page) !== 'string') {
-            throw new Error('Page should be a number or a string.');
+            throw new Error();
         }
         this._page = page;
         return this;
@@ -245,7 +254,7 @@ export default class QueryBuilder {
 
     tap(callback) {
         if (typeof callback !== 'function') {
-            throw new Error('Callback function should be passed.');
+            throw new Error();
         }
         callback(this);
         return this;
@@ -253,7 +262,7 @@ export default class QueryBuilder {
 
     when(condition, callback) {
         if (gettype(callback) !== 'function') {
-            throw new Error('Callback function should be passed as the second argument.');
+            throw new Error();
         }
         condition = gettype(condition) === 'function' ? condition() : condition;
         if (condition) {
@@ -291,9 +300,10 @@ export default class QueryBuilder {
         });
 
         const paramsString = params
+            .sort((a, b) => (a[0] < b[0] ? -1 : 1))
             .map(entry => `${encodeURIComponent(entry[0])}=${encodeURIComponent(entry[1])}`)
             .join('&');
 
-        return `${this._baseUri}?${paramsString}`;
+        return `${this._baseUrl}?${paramsString}`;
     }
 }
