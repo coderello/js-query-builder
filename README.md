@@ -114,7 +114,7 @@ const url = query('/users')
 
 ### Forgetting
 
-Let's imagine that you need to forget some filters, sorts, includes etc.
+You need to forget some filters, sorts, includes etc.?
 
 Here you are:
 
@@ -130,7 +130,7 @@ const url = query('/users')
 
 ### Customizing parameter names
 
-There are cases when you need to customize parameter names.
+There may be cases when you need to customize parameter names.
 
 You can define custom parameter names globally this way:
 
