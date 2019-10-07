@@ -1,6 +1,0 @@
-site:
-  show: true
-  title: 'JS Query Builder'
-  description: 'An easy way to build a query string compatible with "spatie/laravel-query-builder".'
-  package_repository: 'npm'
-  package_name: 'js-query-builder'
