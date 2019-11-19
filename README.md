@@ -1,4 +1,4 @@
-<p align="center"><img alt="JavaScript Query Builder" src="https://i.imgur.com/7OyksVL.png" width="500"></p>
+<p align="center"><img alt="JavaScript Query Builder" src="https://coderello.com/images/packages/js-query-builder.png" width="500"></p>
 
 <p align="center"><b>JavaScript Query Builder</b> provides an easy way to build a query string compatible with <a href="https://github.com/spatie/laravel-query-builder">spatie/laravel-query-builder</a>.</p>
 
